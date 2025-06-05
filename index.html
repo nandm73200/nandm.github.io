@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>N'nM&co</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>N'nM&co</h1>
+        <p>Le service à la serviette au Lac de Grignon 🌴</p>
+    </header>
+
+    <section class="produits">
+        <h2>Nos Produits</h2>
+        <ul>
+            <li><strong>Red Bull</strong> (original, juneberry, pastèque, fruit du dragon) — 2,50€</li>
+            <li><strong>Sirop 50cl</strong> (fraise, citron, menthe) — 2€</li>
+            <li><strong>Mojito</strong> — 3€</li>
+            <li><strong>Viennetta à partager</strong> — 5€</li>
+        </ul>
+    </section>
+
+    <section class="service">
+        <h2>Service à la serviette</h2>
+        <p>On vous livre directement sur place au Lac de Grignon. Installez-vous, détendez-vous, on s'occupe du reste ! 🍹</p>
+    </section>
+
+    <section class="parrainage">
+        <h2>Parrainage</h2>
+        <p>Parraine 3 amis et reçois <strong>1€ de réduction</strong> sur toute la boutique (hors Viennetta) 🎁</p>
+    </section>
+
+    
+    
+    <section class="contact">
+        <h2>Contact</h2>
+        <p>📍 Lac de Grignon</p>
+        <p>📸 Insta / Snap : <strong>@nandm73200</strong></p>
+        <p>Ajoute-nous sur Snap 👇</p>
+        <a href="https://snapchat.com/t/ZtwQoL2t" target="_blank">
+            <img src="snapcode.png" alt="Snapcode N'nM&co" style="width:150px; border-radius: 20px;">
+        </a>
+        <h3>Envoyer un message :</h3>
+        <form action="https://formspree.io/f/mjkrkjbj" method="POST">
+            <label for="name">Nom :</label><br>
+            <input type="text" name="name" required><br><br>
+            <label for="message">Message :</label><br>
+            <textarea name="message" rows="4" required></textarea><br><br>
+            <button type="submit">Envoyer</button>
+        </form>
+    </section>
+
+
+
+    <footer>
+        <p>&copy; 2025 N'nM&co. Tous droits réservés.</p>
+    </footer>
+
+<div id="confirmation" style="display:none; padding: 1em; background-color: #d4edda; color: #155724; text-align: center; margin: 1em auto; border-radius: 8px; max-width: 600px;">
+    Merci ! Ton message a bien été envoyé 🙌
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector("form");
+    const confirmation = document.getElementById("confirmation");
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        fetch(form.action, {
+            method: "POST",
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+                confirmation.style.display = "block";
+                document.getElementById('ding-sound').play(); form.reset();
+            } else {
+                confirmation.innerText = "Erreur lors de l'envoi. Réessaye plus tard.";
+                confirmation.style.display = "block";
+            }
+        }).catch(error => {
+            confirmation.innerText = "Erreur de connexion. Réessaye plus tard.";
+            confirmation.style.display = "block";
+        });
+    });
+});
+</script>
+
+
+<div id="confirmation" style="display:none; padding: 1em; background-color: #e0f7e9; color: #006644; 
+text-align: center; margin: 1em auto; border-radius: 12px; max-width: 600px; font-size: 1.1em; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+    ☀️ Merci ! Ton message a bien été envoyé, on revient vite vers toi ! 🌴
+</div>
+<div id="error" style="display:none; padding: 1em; background-color: #ffe6e6; color: #b00020; 
+text-align: center; margin: 1em auto; border-radius: 12px; max-width: 600px; font-size: 1.1em; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector("form");
+    const confirmation = document.getElementById("confirmation");
+    const errorDiv = document.getElementById("error");
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        fetch(form.action, {
+            method: "POST",
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+                confirmation.style.display = "block";
+                errorDiv.style.display = "none";
+                confirmation.animate([
+                    { transform: 'scale(0.8)', opacity: 0 },
+                    { transform: 'scale(1)', opacity: 1 }
+                ], {
+                    duration: 500,
+                    easing: "ease-out"
+                });
+                document.getElementById('ding-sound').play(); form.reset();
+            } else {
+                showError("Erreur lors de l'envoi. Réessaye plus tard.");
+            }
+        }).catch(() => {
+            showError("Erreur de connexion. Réessaye plus tard.");
+        });
+
+        function showError(message) {
+            confirmation.style.display = "none";
+            errorDiv.textContent = message;
+            errorDiv.style.display = "block";
+            errorDiv.animate([
+                { transform: 'scale(0.9)', opacity: 0 },
+                { transform: 'scale(1)', opacity: 1 }
+            ], {
+                duration: 500,
+                easing: "ease-out"
+            });
+        }
+    });
+});
+</script>
+
+
+<audio id="ding-sound" src="ding.mp3" preload="auto"></audio>
+
+</body>
+</html>
